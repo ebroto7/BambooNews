@@ -15,7 +15,12 @@ class NewsViewController: UITableViewController {
     
     @IBOutlet weak var searchTextField: UITextField!
     
+    @IBOutlet weak var segmentedContryId: UISegmentedControl!
     
+    @IBAction func segmentCountryIdButton(_ sender: Any) {
+        selectedCountryNews()
+        
+    }
     let reuseIndetifier = "reuseIndetifier"
     
     let newsManager = NewsManager()
@@ -30,17 +35,9 @@ class NewsViewController: UITableViewController {
         
         tableView.register(nib, forCellReuseIdentifier: reuseIndetifier)
         
+        selectedCountryNews()
+  
         
-      
-
-        newsManager.fetchHeadlines(countryId: CountryTipe.france) { (news) in
-            self.articles = news.articles    //estem guardant a articles la informació descarregada   //de tota la informació que es descarrega a "news" nomes vull els "articles" per això news.article
-            self.tableView.reloadData()
-            print("num de noticies: \(news.totalResults)")
-        } failure: { (error) in
-            print("error")
-        }
-
         
         newsManager.fetchSources() { (sources) in
             
@@ -53,6 +50,31 @@ class NewsViewController: UITableViewController {
         print("hola!!")
     }
     
+    func selectedCountryNews() {
+        
+        var selectedCountryId = CountryTipe.mexico
+        
+        if segmentedContryId.selectedSegmentIndex == 0 {
+            selectedCountryId = CountryTipe.france
+        } else if segmentedContryId.selectedSegmentIndex == 1 {
+            selectedCountryId = CountryTipe.mexico
+        } else if segmentedContryId.selectedSegmentIndex == 2 {
+            selectedCountryId = CountryTipe.greatBretain
+        } else if segmentedContryId.selectedSegmentIndex == 3 {
+            selectedCountryId = CountryTipe.unitedStates
+        }
+        
+        
+        
+        newsManager.fetchHeadlines(countryId: selectedCountryId) { (news) in
+            self.articles = news.articles    //estem guardant a articles la informació descarregada   //de tota la informació que es descarrega a "news" nomes vull els "articles" per això news.article
+            self.tableView.reloadData()
+            print("num de noticies: \(news.totalResults)")
+        } failure: { (error) in
+            print("error")
+        }
+        
+    }
 }
 
 
@@ -82,17 +104,17 @@ extension NewsViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let title = self.articles?[indexPath.row].title ?? "sense noticia"
+        //        let title = self.articles?[indexPath.row].title ?? "sense noticia"
         
-      
+        
         
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIndetifier, for: indexPath)
         if let picturesCell = cell as? TableViewCell {
             if let article = articles?[indexPath.row] {
                 picturesCell.configure(with: article)
             }
-//            picturesCell.cellTextView.text = "\(indexPath.row + 1).- \(title)"
-
+            //            picturesCell.cellTextView.text = "\(indexPath.row + 1).- \(title)"
+            
             return picturesCell
         } else {
             return cell
@@ -100,18 +122,18 @@ extension NewsViewController {
     }
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100
-    
+        
     }
     
-//    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-//        return 100
-//    }
+    //    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    //        return 80
+    //    }
     
 }
 
 
 extension NewsViewController: UITextFieldDelegate {
-     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         newsManager.fetchEverything(search: searchTextField.text ?? "") { (news) in
             self.articles = news.articles
             self.tableView.reloadData()
@@ -121,8 +143,8 @@ extension NewsViewController: UITextFieldDelegate {
         }
         
         searchTextField.becomeFirstResponder()
-      
+        
         return true
-    
     }
+    
 }

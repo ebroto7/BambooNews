@@ -18,25 +18,42 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <view key="tableHeaderView" contentMode="scaleToFill" id="hRk-hM-HMO">
-                            <rect key="frame" x="0.0" y="0.0" width="414" height="50"/>
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="65"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Search" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="dVE-8Y-FjP">
-                                    <rect key="frame" x="5" y="5" width="404" height="40"/>
-                                    <color key="backgroundColor" red="1" green="0.83145821799999997" blue="0.62953647130000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                    <textInputTraits key="textInputTraits" returnKeyType="search"/>
-                                    <connections>
-                                        <outlet property="delegate" destination="6pH-nC-tIM" id="IhU-DG-c8d"/>
-                                    </connections>
-                                </textField>
+                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="pDa-UO-eDx">
+                                    <rect key="frame" x="5" y="5" width="404" height="55"/>
+                                    <subviews>
+                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Search news" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="dVE-8Y-FjP">
+                                            <rect key="frame" x="0.0" y="0.0" width="404" height="25"/>
+                                            <color key="backgroundColor" red="1" green="0.83145821799999997" blue="0.62953647130000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <textInputTraits key="textInputTraits" returnKeyType="search"/>
+                                            <connections>
+                                                <outlet property="delegate" destination="6pH-nC-tIM" id="IhU-DG-c8d"/>
+                                            </connections>
+                                        </textField>
+                                        <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="zWm-if-hjN">
+                                            <rect key="frame" x="0.0" y="30" width="404" height="26"/>
+                                            <segments>
+                                                <segment title="FR"/>
+                                                <segment title="MX"/>
+                                                <segment title="GB"/>
+                                                <segment title="USA"/>
+                                            </segments>
+                                            <connections>
+                                                <action selector="segmentCountryIdButton:" destination="6pH-nC-tIM" eventType="valueChanged" id="k1V-cp-6Ts"/>
+                                            </connections>
+                                        </segmentedControl>
+                                    </subviews>
+                                </stackView>
                             </subviews>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             <constraints>
-                                <constraint firstItem="dVE-8Y-FjP" firstAttribute="leading" secondItem="hRk-hM-HMO" secondAttribute="leading" constant="5" id="07t-lw-LU0"/>
-                                <constraint firstItem="dVE-8Y-FjP" firstAttribute="top" secondItem="hRk-hM-HMO" secondAttribute="top" constant="5" id="8JM-ca-3hS"/>
-                                <constraint firstAttribute="bottom" secondItem="dVE-8Y-FjP" secondAttribute="bottom" constant="5" id="KJE-aW-ET7"/>
-                                <constraint firstAttribute="trailing" secondItem="dVE-8Y-FjP" secondAttribute="trailing" constant="5" id="p96-Cd-Hdg"/>
+                                <constraint firstItem="pDa-UO-eDx" firstAttribute="top" secondItem="hRk-hM-HMO" secondAttribute="top" constant="5" id="B5A-fA-6bh"/>
+                                <constraint firstItem="pDa-UO-eDx" firstAttribute="leading" secondItem="hRk-hM-HMO" secondAttribute="leading" constant="5" id="F9g-4J-rdT"/>
+                                <constraint firstAttribute="bottom" secondItem="pDa-UO-eDx" secondAttribute="bottom" constant="5" id="cD8-9n-wAa"/>
+                                <constraint firstAttribute="trailing" secondItem="pDa-UO-eDx" secondAttribute="trailing" constant="5" id="dEs-32-JSE"/>
                             </constraints>
                         </view>
                         <connections>
@@ -47,6 +64,7 @@
                     <navigationItem key="navigationItem" title="NEWS" id="O1t-kX-h0L"/>
                     <connections>
                         <outlet property="searchTextField" destination="dVE-8Y-FjP" id="TJ9-HM-ngi"/>
+                        <outlet property="segmentedContryId" destination="zWm-if-hjN" id="th6-rz-OuI"/>
                         <segue destination="qSe-0m-sy3" kind="show" identifier="goToDetail" id="GrQ-J4-GRf"/>
                     </connections>
                 </tableViewController>

@@ -13,5 +13,6 @@ enum CountryTipe: String {
     case unitedStates = "us"
     case greatBretain = "gb"
     case france = "fr"
+    case venezuela = "ve"
     
 }

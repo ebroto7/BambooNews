@@ -45,10 +45,8 @@ class DetailNewsViewController: UIViewController {
         newsImageView.af.setImage(withURL: url)
         
         
-        let idToSearch = NewsViewModel.selectedIndex?.source.id
+        guard let idToSearch = NewsViewModel.selectedIndex?.source.id else { return }
         var fontTrobada: Source?
-        
-        
         if let llistatSources = NewsViewModel.sourcesList?.sources {
             for font in llistatSources {
                 if idToSearch == font.id {
@@ -56,6 +54,24 @@ class DetailNewsViewController: UIViewController {
                 }
             }
         }
+        
+//        let fontTrobada = NewsViewModel.sourcesList?.sources.first { $0.id == idToSearch }
+        
+//        var fontTrobada: Source?
+//        NewsViewModel.sourcesList?.sources.forEach {
+//            if $0.id == idToSearch {
+//                fontTrobada = $0
+//            }
+//        }
+        //el mateix que:
+//  var fontTrobada: Source?
+//                NewsViewModel.sourcesList?.sources.forEach { (font) in
+//                    if font.id == idToSearch {
+//                        fontTrobada = font
+//                    }
+//                }
+//
+        
         
         let soureceDescription: String = "\(NewsViewModel.selectedIndex?.description ?? "hola")\n\n\(NewsViewModel.selectedIndex?.source.name ?? "sense font") \n \(fontTrobada?.description ?? "Sense info de la font")"
         

@@ -41,13 +41,13 @@ class DetailNewsViewController: UIViewController {
 //        newsLabel.text = NewsViewModel.selectedIndex?.description
        
         
-        guard let url = URL(string: NewsViewModel.selectedIndex?.urlToImage ?? "no hi ha imatge") else { return }
+        if let url = URL(string: NewsViewModel.selectedIndex?.urlToImage ?? "no hi ha imatge") {
         newsImageView.af.setImage(withURL: url)
+        }
         
-        
-        guard let idToSearch = NewsViewModel.selectedIndex?.source.id else { return }
         var fontTrobada: Source?
-        if let llistatSources = NewsViewModel.sourcesList?.sources {
+        if let llistatSources = NewsViewModel.sourcesList?.sources,
+           let idToSearch = NewsViewModel.selectedIndex?.source.id {
             for font in llistatSources {
                 if idToSearch == font.id {
                      fontTrobada = font

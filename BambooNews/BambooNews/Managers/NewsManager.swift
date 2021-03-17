@@ -61,7 +61,6 @@ struct NewsManager {
         print("2. Search method finishes")
     }
     
-    
     func fetchSources( succes: @escaping (SourcesList) -> (),
                        failure: @escaping (ApiError) -> () ) {
     

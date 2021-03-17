@@ -17,8 +17,19 @@ class NewsViewController: UITableViewController {
     
     @IBOutlet weak var segmentedContryId: UISegmentedControl!
     
-    @IBAction func segmentCountryIdButton(_ sender: Any) {
-        selectedCountryNews()
+    @IBAction func segmentCountryIdButton(_ sender: UISegmentedControl) {
+        let selectedIndex = sender.selectedSegmentIndex
+        let countrySelected: CountryTipe = CountryTipe.allCases[selectedIndex]
+        
+        
+        newsManager.fetchHeadlines(countryId: countrySelected) { (news) in
+            self.articles = news.articles    //estem guardant a articles la informació descarregada   //de tota la informació que es descarrega a "news" nomes vull els "articles" per això news.article
+            self.tableView.reloadData()
+            print("num de noticies: \(news.totalResults)")
+        } failure: { (error) in
+            print("error")
+        }
+        
         
     }
     let reuseIndetifier = "reuseIndetifier"
@@ -35,8 +46,8 @@ class NewsViewController: UITableViewController {
         
         tableView.register(nib, forCellReuseIdentifier: reuseIndetifier)
         
-        selectedCountryNews()
-  
+
+        
         
         
         newsManager.fetchSources() { (sources) in
@@ -47,7 +58,10 @@ class NewsViewController: UITableViewController {
         }
         
         
-        print("hola!!")
+        setupSegmentedControl()
+        loadFirstCountryNews()
+        
+        
     }
     
     func selectedCountryNews() {
@@ -75,6 +89,30 @@ class NewsViewController: UITableViewController {
         }
         
     }
+    func setupSegmentedControl() {
+        let countryList = CountryTipe.allCases
+        segmentedContryId.removeAllSegments()
+        var position: Int = 0
+        for country in countryList {
+            position += 1
+            segmentedContryId.insertSegment(withTitle: "\(country.name)", at: position, animated: true)
+            
+        }
+    }
+    func loadFirstCountryNews() {
+        let countryIndex = 0
+        segmentedContryId.selectedSegmentIndex = countryIndex
+        let countryId = CountryTipe.allCases[countryIndex]
+        newsManager.fetchHeadlines(countryId: countryId) { (news) in
+            self.articles = news.articles    //estem guardant a articles la informació descarregada   //de tota la informació que es descarrega a "news" nomes vull els "articles" per això news.article
+            self.tableView.reloadData()
+            print("num de noticies: \(news.totalResults)")
+        } failure: { (error) in
+            print("error")
+        }
+
+    }
+    
 }
 
 
